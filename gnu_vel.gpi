@@ -1,0 +1,10 @@
+#! /usr/bin/gnuplot -persist
+
+set term png size 900, 600
+set output "velocity.png"
+set xlabel "time, s" 
+set ylabel "U, m/s"
+set grid
+set yrange [0:25]
+set xrange[0:0.4]
+plot "velocity.txt" with linespoints notitle

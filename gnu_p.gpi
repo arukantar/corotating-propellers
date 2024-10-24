@@ -1,0 +1,11 @@
+#! /usr/bin/gnuplot -persist
+
+set term png size 900, 600
+set output "pressure.png"
+datafile = 'postProcessing/probes2/0/p'
+set xlabel "time, s" 
+set ylabel "p, Pa"
+set grid
+set yrange [-10:10]
+set xrange [0:0.4]
+plot datafile with lines notitle

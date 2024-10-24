@@ -1,0 +1,123 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+convertToMeters 1;
+vertices
+(
+
+//inlet plane:
+	(0 -0.727 -0.727) // Vertex A0 = 0
+	(0 0.727 -0.727) // Vertex A1 = 1
+	(0 0.727 0.727) // Vertex A2 = 2
+	(0 -0.727 0.727) // Vertex A3 = 3
+	// square inside
+	(0 -0.6 -0.6) // Vertex A4 = 4
+	(0 0.6 -0.6) // Vertex A5 = 5
+	(0 0.6 0.6) // Vertex A6 = 6
+	(0 -0.6 0.6) // Vertex A7 = 7
+
+//outlet plane:
+	(6.2 -0.727 -0.727) // Vertex B0 = 8
+	(6.2 0.727 -0.727) // Vertex B1 = 9
+	(6.2 0.727 0.727) // Vertex B2 = 10
+	(6.2 -0.727 0.727) // Vertex B3 = 11
+	// square inside
+	(6.2 -0.6 -0.6) // Vertex B4 = 12
+	(6.2 0.6 -0.6) // Vertex B5 = 13
+	(6.2 0.6 0.6) // Vertex B6 = 14
+	(6.2 -0.6 0.6) // Vertex B7 = 15
+);
+
+// Defining blocks:
+blocks
+(
+//Blocks between inlet plane and outlet plane:
+ 
+//block0 - positive z O-grid block
+	hex (3 7 6 2 11 15 14 10)
+	(8 35 110) //(15 30 80)
+	simpleGrading (1 1 1)
+//block1 - positive y O-grid block
+	hex (2 6 5 1 10 14 13 9)
+	(8 35 110)
+	simpleGrading (1 1 1)
+//block2 - negative z O-grid block
+	hex (1 5 4 0 9 13 12 8 )
+	(8 35 110)
+	simpleGrading (1 1 1)
+//block3 - negative y O-grid block
+	hex (0 4 7 3 8 12 15 11 )
+	(8 35 110)
+	simpleGrading (1 1 1)
+//block4 - central O-grid block
+	hex (4 5 6 7 12 13 14 15 )
+	(35 35 110)
+	simpleGrading (1 1 1)
+);
+edges
+(
+//inlet plane:
+	arc 0 1 (0 0 -1.0287)
+	arc 1 2 (0 1.0287 0)
+	arc 2 3 (0 0 1.0287)
+	arc 3 0 (0 -1.0287 0)
+	arc 4 5 (0 0 -0.7)
+	arc 5 6 (0 0.7 0)
+	arc 6 7 (0 0 0.7)
+	arc 7 4 (0 -0.7 0)
+//outlet plane
+	arc 8 9 (6.2 0 -1.0287)
+	arc 9 10 (6.2 1.0287 0)
+	arc 10 11 (6.2 0 1.0287)
+	arc 11 8 (6.2 -1.0287 0)
+	arc 12 13 (6.2 0 -0.7)
+	arc 13 14 (6.2 0.7 0)
+	arc 14 15 (6.2 0 0.7)
+	arc 15 12 (6.2 -0.7 0)
+
+);
+// Defining patches:
+patches
+(
+	patch inlet
+(
+	(0 1 5 4)
+	(5 1 2 6)
+	(7 6 2 3)
+	(0 4 7 3)
+	(4 5 6 7)
+)
+	patch outlet
+(
+	(8 9 13 12)
+	(13 9 10 14)
+	(15 14 10 11)
+	(8 12 15 11)
+	(12 13 14 15)
+)
+	patch walls
+(
+    (11 10 2 3)
+	(10 9 1 2)
+	(9 8 0 1)
+	(8 11 3 0)
+)
+);
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
